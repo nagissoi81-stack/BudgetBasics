@@ -1,3 +1,5 @@
+![Uploading BudgetBasics...png…]()
+<img width="824" height="388" alt="BudgetBasics" src="https://github.com/user-attachments/assets/98cbb111-9ffb-4502-af05-539c4b07c03a" />
 # BudgetBasics | أساسيات الميزانية
 
 A free, bilingual (English/Arabic) educational single-page website that helps
