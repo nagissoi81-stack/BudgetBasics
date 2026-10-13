@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BudgetBasics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7FBF9;--ink:#0C2F36;--mut:#4B6A70;--card:#fff;--line:#D2E4DF;--teal:#0F6E75;--honey:#F2B01E;--leaf:#3FA06B;--coral:#C93E22;--soft:#E4F3EE;--on:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A1E22;--ink:#E6F3F0;--mut:#9DBDB8;--card:#11303A;--line:#1E4650;--teal:#3FB5BC;--leaf:#6CCB93;--coral:#FF8A6B;--soft:#123A42;--on:#062126}}
+:root[data-theme="dark"]{--bg:#0A1E22;--ink:#E6F3F0;--mut:#9DBDB8;--card:#11303A;--line:#1E4650;--teal:#3FB5BC;--leaf:#6CCB93;--coral:#FF8A6B;--soft:#123A42;--on:#062126}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Figtree,system-ui,sans-serif}
+html[lang=ar] body{font-family:Tajawal,Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Georgia,serif;line-height:1.15;margin:0 0 .5em}
+html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3{font-family:Tajawal,serif}
+h1{font-size:clamp(2.1rem,6vw,3.6rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:800}
+h3{font-size:1.1rem}
+p{margin:.3em 0 .8em;max-width:65ch}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+section{padding:56px 0;border-top:1px solid var(--line)}
+:focus-visible{outline:3px solid var(--honey);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:14px;height:58px}
+.logo{display:flex;align-items:center;gap:8px;font:800 1.15rem 'Bricolage Grotesque',serif;color:var(--ink);text-decoration:none}
+html[lang=ar] .logo{font-family:Tajawal,serif}
+.hx{display:inline-block;width:26px;height:30px;background:var(--honey);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);flex:none}
+nav{display:flex;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav a{white-space:nowrap;padding:6px 8px;border-radius:8px;color:var(--mut);text-decoration:none;font-size:.88rem}
+nav a:hover{background:var(--soft);color:var(--ink)}
+button,.btn{font:600 .95rem Figtree,sans-serif;border:1.5px solid var(--teal);background:transparent;color:var(--ink);padding:8px 14px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-block}
+html[lang=ar] button,html[lang=ar] .btn{font-family:Tajawal,sans-serif}
+button:hover{background:var(--soft)}
+.pri{background:var(--honey);border-color:var(--honey);color:#0C2F36}
+.pri:hover{background:#ffc93d}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;align-items:center;padding:48px 0}
+.calc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+label{display:block;font-weight:600;margin:10px 0 4px;font-size:.92rem}
+input,select{width:100%;padding:9px 11px;border:1.5px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+.err{color:var(--coral);font-size:.88rem;min-height:1.2em;margin:4px 0}
+.n{background:var(--teal)}.w{background:var(--honey)}.s{background:var(--leaf)}
+.row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.row b{font-family:'Bricolage Grotesque',serif}
+html[lang=ar] .row b{font-family:Tajawal,serif}
+.dot{display:inline-block;width:12px;height:12px;border-radius:3px;margin-inline-end:6px}
+.note{font-size:.85rem;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{color:var(--teal)}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:start;padding:8px;border-bottom:1px solid var(--line)}
+.scroll{overflow-x:auto}
+.bar{height:12px;background:var(--soft);border-radius:8px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--leaf);border-radius:8px;transition:width .4s}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.big{font:800 1.6rem 'Bricolage Grotesque',serif;min-height:2.4em}
+html[lang=ar] .big{font-family:Tajawal,serif}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}
+.chips button[aria-pressed=true]{background:var(--teal);color:var(--on)}
+.chat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+#log{min-height:130px;max-height:280px;overflow:auto;margin-bottom:10px}
+.m{padding:8px 12px;border-radius:12px;margin:6px 0;max-width:85%}
+.u{background:var(--honey);color:#0C2F36;margin-inline-start:auto}
+.b{background:var(--soft)}
+footer{background:var(--teal);color:var(--on);padding:28px 0 0;font-size:.9rem;line-height:1.55}
+footer a{color:var(--on);text-decoration:none;opacity:.9}
+footer a:hover,footer a:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:3px}
+footer p{margin:.25em 0 0;max-width:none}
+.fgrid{display:grid;grid-template-columns:1.2fr .8fr 1.4fr;gap:28px 40px;align-items:start}
+.fh{display:block;margin-bottom:8px;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+html[lang=ar] .fh{letter-spacing:0;text-transform:none;font-size:.9rem}
+.fbrand .fh{font:800 1.1rem 'Bricolage Grotesque',serif;letter-spacing:0;text-transform:none;opacity:1}
+html[lang=ar] .fbrand .fh{font-family:Tajawal,serif}
+.flinks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,auto);justify-content:start;gap:4px 22px}
+.fdisc p{font-size:.82rem;opacity:.88}
+footer .badges{gap:6px;margin-top:10px}
+footer .badge{padding:3px 9px;font-size:.72rem}
+.credit{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 20px;border-top:1px solid rgba(255,255,255,.25);border-top-color:color-mix(in srgb,currentColor 25%,transparent);margin-top:22px;padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));font-size:.78rem;opacity:.9}
+.credit .fmeta{opacity:.85}
+@media(max-width:760px){.fgrid{grid-template-columns:1fr;gap:20px}.credit{flex-direction:column;align-items:flex-start}}
+#top{position:fixed;inset-inline-end:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;background:var(--honey);color:#0C2F36;border-color:var(--honey)}
+.ok{color:var(--leaf);font-weight:600}
+.langbtn{display:flex;align-items:center;gap:4px;flex:none;padding:6px 10px;font-size:.8rem;border-radius:8px}
+/* hero reveal */
+.hero>*{opacity:0;animation:rise .6s ease forwards}
+.hero>div:first-child{animation-delay:.05s}.hero>.calc{animation-delay:.2s}
+@keyframes rise{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+/* donut */
+.donutwrap{display:flex;align-items:center;gap:18px;margin:14px 0}
+.donutwrap svg{flex:none}
+.donutwrap svg circle{transition:stroke-dasharray .5s ease}
+.legend{font-size:.85rem}
+.legend div{display:flex;align-items:center;gap:6px;margin:3px 0}
+/* daily tip */
+.story{background:linear-gradient(135deg,var(--soft),var(--card));border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin-top:18px;display:flex;gap:12px;align-items:flex-start}
+.story .ic{font-size:1.4rem;flex:none}
+/* category icons */
+.cicon{display:inline-flex;width:22px;height:22px;border-radius:7px;align-items:center;justify-content:center;font-size:.8rem;margin-inline-end:6px;background:var(--soft)}
+/* badges */
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.badge{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.15);font-size:.82rem;opacity:.45;transition:opacity .3s}
+.badge.on{opacity:1}
+.badge i{width:8px;height:8px;border-radius:50%;background:currentColor}
+@media(max-width:760px){.hero,.two{grid-template-columns:1fr}header .wrap{gap:8px}.donutwrap{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.hero>*{opacity:1}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<a class="logo" href="#top-of-page"><span class="hx"></span><span data-i18n="brand">BudgetBasics</span></a>
+<nav aria-label="Main menu">
+<a href="#basics" data-i18n="nav.basics">Basics</a><a href="#nw" data-i18n="nav.nw">Needs vs Wants</a><a href="#rule" data-i18n="nav.rule">50-30-20</a><a href="#goals" data-i18n="nav.goals">Savings Goals</a><a href="#planner" data-i18n="nav.planner">Expense Planner</a><a href="#mistakes" data-i18n="nav.mistakes">Money Mistakes</a><a href="#tips" data-i18n="nav.tips">Infographics &amp; Tips</a><a href="#chat" data-i18n="nav.chat">AI Chatbot</a><a href="#feedback" data-i18n="nav.feedback">Feedback</a><a href="#contact" data-i18n="nav.contact">Contact Us</a>
+</nav>
+<button id="lang" class="langbtn" aria-label="Switch language"></button>
+<button id="theme" aria-label="Toggle dark mode" data-i18n="theme" style="flex:none;padding:6px 10px;font-size:.8rem">Theme</button>
+</div></header>
+
+<main id="top-of-page">
+<div class="wrap">
+<div class="hero" id="rule">
+<div>
+<h1 data-i18n="hero.h1">Plan your month before it plans you.</h1>
+<p data-i18n="hero.p">BudgetBasics is a free learning space for students. Type in a monthly allowance and watch it split into a hive: half for needs, a third for wants, the rest for future you.</p>
+<p class="note" data-i18n="hero.note">Sample values only. Nothing you type here is saved or sent anywhere.</p>
+<a class="btn pri" href="#basics" data-i18n="hero.cta">Start learning</a>
+</div>
+<div class="calc">
+<h2 style="font-size:1.3rem" data-i18n="calc.h2">50-30-20 hive calculator</h2>
+<label for="inc" data-i18n="calc.label">Monthly income or allowance ($)</label>
+<input id="inc" type="number" min="0" step="any" value="400" inputmode="decimal">
+<div class="err" id="incErr" role="alert"></div>
+<div class="donutwrap">
+<svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Budget split donut chart">
+<circle cx="60" cy="60" r="48" fill="none" stroke="var(--line)" stroke-width="16"/>
+<circle id="dN" cx="60" cy="60" r="48" fill="none" stroke="var(--teal)" stroke-width="16" stroke-dasharray="0 301.6" stroke-dashoffset="0" transform="rotate(-90 60 60)" stroke-linecap="round"/>
+<circle id="dW" cx="60" cy="60" r="48" fill="none" stroke="var(--honey)" stroke-width="16" stroke-dasharray="0 301.6" stroke-dashoffset="0" transform="rotate(-90 60 60)" stroke-linecap="round"/>
+<circle id="dS" cx="60" cy="60" r="48" fill="none" stroke="var(--leaf)" stroke-width="16" stroke-dasharray="0 301.6" stroke-dashoffset="0" transform="rotate(-90 60 60)" stroke-linecap="round"/>
+</svg>
+<div class="legend">
+<div class="row"><span><i class="dot n"></i><span data-i18n="calc.needs">Needs 50%</span></span><b id="an"></b></div>
+<div class="row"><span><i class="dot w"></i><span data-i18n="calc.wants">Wants 30%</span></span><b id="aw"></b></div>
+<div class="row"><span><i class="dot s"></i><span data-i18n="calc.savings">Savings 20%</span></span><b id="as"></b></div>
+</div>
+</div>
+<p class="note" data-i18n="calc.formula">Formula: income × 0.5, 0.3 and 0.2. This is an educational guideline and estimate. Adjust it to fit your life.</p>
+<button id="dl" data-i18n="calc.download">Download as image</button>
+</div>
+</div>
+<div class="story" id="story"><span class="ic">💡</span><div><b id="storyT"></b><p class="note" id="storyB" style="margin:2px 0 0"></p></div></div>
+</div>
+
+<section id="basics"><div class="wrap">
+<h2 data-i18n="basics.h2">Budgeting basics</h2>
+<div class="grid">
+<div class="card"><h3 data-i18n="basics.income.t">Income</h3><p data-i18n="basics.income.d">Money coming in: allowance, scholarship, internship or part-time pay.</p></div>
+<div class="card"><h3 data-i18n="basics.fixed.t">Fixed expenses</h3><p data-i18n="basics.fixed.d">Same amount every month, like hostel rent or a phone plan.</p></div>
+<div class="card"><h3 data-i18n="basics.var.t">Variable expenses</h3><p data-i18n="basics.var.d">Change each month: groceries, transport, outings.</p></div>
+<div class="card"><h3 data-i18n="basics.sav.t">Savings</h3><p data-i18n="basics.sav.d">Money set aside for goals and surprises. Pay it first, spend the rest.</p></div>
+</div>
+<div class="two" style="margin-top:24px">
+<div><h3 data-i18n="basics.sample">Sample student month ($500)</h3><div class="scroll"><table id="sampleTbl"></table></div></div>
+<div class="card" id="kc"><h3 data-i18n="kc.h3">Quick check</h3><p data-i18n="kc.q">Which of these is a variable expense?</p>
+<div class="btns" id="kcBtns"></div>
+<p class="note" id="kcf" role="status"></p></div>
+</div>
+</div></section>
+
+<section id="nw"><div class="wrap">
+<h2 data-i18n="nw.h2">Needs vs wants</h2>
+<div class="two">
+<div class="card"><p data-i18n="nw.q">Is this a need or a want?</p><div class="big" id="nwItem"></div>
+<div class="btns" id="nwBtns"><button data-k="n" data-i18n="nw.need">Need</button><button data-k="w" data-i18n="nw.want">Want</button></div>
+<button id="nwR" hidden data-i18n="nw.again">Play again</button>
+<p role="status" id="nwF" class="note"></p></div>
+<div class="card"><h3 data-i18n="nw.guide.h3">Decision guide</h3><p data-i18n="nw.guide.ask">Ask: Is it essential now?</p>
+<p data-i18n="nw.guide.yes">Yes: prioritize it in this month's budget.</p>
+<p data-i18n="nw.guide.no">No: add it to a wish list and wait 48 hours. If you still want it, plan for it.</p></div>
+</div>
+</div></section>
+
+<section id="goals"><div class="wrap">
+<h2 data-i18n="goals.h2">Savings goals</h2>
+<div class="two">
+<form id="sg" novalidate>
+<label for="gn" data-i18n="goals.name">Goal name</label><input id="gn" data-i18n-ph="goals.nameph" placeholder="New laptop">
+<label for="gt" data-i18n="goals.target">Target amount ($)</label><input id="gt" type="number" min="0" step="any">
+<label for="gc" data-i18n="goals.saved">Saved so far ($)</label><input id="gc" type="number" min="0" step="any">
+<label for="gm" data-i18n="goals.monthly">Monthly contribution ($)</label><input id="gm" type="number" min="0" step="any">
+<div class="err" id="sge" role="alert"></div>
+<button class="pri" data-i18n="goals.calc">Calculate</button></form>
+<div class="card" id="sgo" role="status" hidden></div>
+</div>
+</div></section>
+
+<section id="planner"><div class="wrap">
+<h2 data-i18n="planner.h2">Expense planner</h2>
+<form id="ef" class="grid" novalidate onsubmit="return false">
+<div><label for="ed" data-i18n="planner.date">Date</label><input id="ed" type="date"></div>
+<div><label for="ec" data-i18n="planner.cat">Category</label><select id="ec"></select></div>
+<div><label for="et2" data-i18n="planner.desc">Description</label><input id="et2"></div>
+<div><label for="ea" data-i18n="planner.amount">Amount ($)</label><input id="ea" type="number" min="0" step="any"></div>
+</form>
+<div class="err" id="ee" role="alert"></div>
+<button class="pri" id="eadd" data-i18n="planner.add">Add expense</button>
+<div class="scroll" style="margin-top:14px"><table><thead><tr>
+<th data-i18n="planner.date">Date</th><th data-i18n="planner.cat">Category</th><th data-i18n="planner.desc">Description</th><th data-i18n="planner.amount">Amount</th><th data-i18n="planner.actions">Actions</th>
+</tr></thead><tbody id="et"></tbody></table></div>
+<div class="grid" style="margin-top:14px">
+<div><label for="eb" data-i18n="planner.balance">Sample balance ($)</label><input id="eb" type="number" value="500" min="0"></div>
+<div class="card"><span data-i18n="planner.total">Total planned:</span> <b id="etot"></b></div>
+<div class="card"><span data-i18n="planner.remaining">Remaining:</span> <b id="erem"></b></div>
+</div>
+<p class="note" data-i18n="planner.note">Entries live only on this screen and disappear when you close or refresh the page.</p>
+</div></section>
+
+<section id="mistakes"><div class="wrap">
+<h2 data-i18n="mist.h2">Money mistakes</h2>
+<div id="mistakesBox"></div>
+</div></section>
+
+<section id="tips"><div class="wrap">
+<h2 data-i18n="tips.h2">Infographics &amp; tips library</h2>
+<label for="q" data-i18n="tips.search">Search tips</label><input id="q" type="search" data-i18n-ph="tips.searchph" placeholder="Try saving, needs, goals">
+<div class="btns chips" id="chips" style="margin-top:10px"></div>
+<div class="btns"><label for="so" style="margin:8px 0" data-i18n="tips.sort">Sort by</label><select id="so" style="width:auto"><option value="0" data-i18n="tips.default">Default</option><option value="1" data-i18n="tips.az">A to Z</option></select></div>
+<div class="grid" id="tg" role="list"></div>
+<p class="err" id="tn" hidden data-i18n="tips.none">No tips match. Try a different word or choose All.</p>
+</div></section>
+
+<section id="chat"><div class="wrap">
+<h2 data-i18n="chat.h2">AI Q&amp;A assistant</h2>
+<div class="chat">
+<div id="log" aria-live="polite"><div class="m b" data-i18n="chat.hello">Hi! Ask me a basic question about budgeting.</div></div>
+<div class="btns" id="sp"></div>
+<div class="btns"><input id="cq" aria-label="Your question" data-i18n-ph="chat.ph" placeholder="Type your question" style="flex:1"><button class="pri" id="ask" data-i18n="chat.ask">Ask</button></div>
+<p class="note" data-i18n="chat.disc">This assistant shares basic educational information. It is not professional financial advice.</p>
+</div>
+</div></section>
+
+<section id="feedback"><div class="wrap two">
+<div><h2 data-i18n="fb.h2">Feedback</h2>
+<form id="ff" novalidate>
+<label for="fn" data-i18n="fb.name">Name</label><input id="fn">
+<label for="fe" data-i18n="fb.email">Email</label><input id="fe" type="email">
+<label for="fr" data-i18n="fb.rating">Rating</label><select id="fr"></select>
+<label for="fc" data-i18n="fb.comments">Comments</label><input id="fc">
+<div class="err" id="fer" role="alert"></div>
+<button class="pri" data-i18n="fb.send">Send feedback</button>
+<p class="ok" id="fok" role="status"></p></form></div>
+<div id="contact"><h2 data-i18n="contact.h2">Contact us</h2>
+<p data-i18n="contact.info">Email: hello@budgetbasics.example<br>Phone: +00 000 000 000<br>Social: @budgetbasics</p>
+<p class="note" data-i18n="contact.note">Forms are checked in your browser only. Nothing is stored or transmitted.</p></div>
+</div></section>
+</main>
+
+<footer>
+<div class="wrap fgrid">
+<div class="fcol fbrand"><b class="fh" data-i18n="brand">BudgetBasics</b><p data-i18n="footer.tag">Small choices, sweet savings.</p>
+<div class="badges" id="badges"></div></div>
+<nav class="fcol" aria-label="Sitemap"><b class="fh" data-i18n="footer.sitemap">Sitemap</b>
+<ul class="flinks"><li><a href="#basics" data-i18n="nav.basics">Learn</a></li><li><a href="#goals" data-i18n="footer.practice">Practice</a></li><li><a href="#tips" data-i18n="footer.resources">Resources</a></li><li><a href="#chat" data-i18n="footer.help">Get help</a></li></ul></nav>
+<div class="fcol fdisc"><b class="fh" data-i18n="footer.disc">Educational disclaimer</b><p data-i18n="footer.discbody">BudgetBasics teaches budgeting ideas. It offers no banking, no transactions and no financial advice. AI tools were used to support design and content.</p></div>
+</div>
+<div class="wrap credit"><span data-i18n="footer.credit">&copy; 2026 BudgetBasics. Designed &amp; developed by Eng. Nagi Alshaikh. All rights reserved.</span>
+<span class="fmeta"><span data-i18n="footer.visitors">Visitors on this device:</span> <b id="vc">1</b> &middot; <span id="clock"></span></span></div>
+</footer>
+<button id="top" aria-label="Back to top" data-i18n="top">Top</button>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let LANG=(localStorage.getItem('bblang')||'en');
+const fm=n=>LANG==='ar'?('$'+Number(n).toLocaleString('ar-EG',{maximumFractionDigits:2})):('$'+Number(n).toLocaleString('en-US',{maximumFractionDigits:2}));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const T={
+en:{brand:'BudgetBasics',theme:'Theme',top:'Top',
+nav:{basics:'Basics',nw:'Needs vs Wants',rule:'50-30-20',goals:'Savings Goals',planner:'Expense Planner',mistakes:'Money Mistakes',tips:'Infographics & Tips',chat:'AI Chatbot',feedback:'Feedback',contact:'Contact Us'},
+hero:{h1:'Plan your month before it plans you.',p:'BudgetBasics is a free learning space for students. Type in a monthly allowance and watch it split into a hive: half for needs, a third for wants, the rest for future you.',note:'Sample values only. Nothing you type here is saved or sent anywhere.',cta:'Start learning'},
+calc:{h2:'50-30-20 hive calculator',label:'Monthly income or allowance ($)',needs:'Needs 50%',wants:'Wants 30%',savings:'Savings 20%',formula:'Formula: income × 0.5, 0.3 and 0.2. This is an educational guideline and estimate. Adjust it to fit your life.',err:'Enter a monthly amount above 0.',download:'Download as image'},
+stories:[['Zayd skipped daily coffee runs for a month','He moved the $60 he saved straight into his laptop fund.'],["Mia almost missed her phone bill",'A calendar reminder saved her a $10 late fee.'],['Omar compared two subscriptions he forgot about','Cancelling them freed up $18 every month.'],['Lina set a small $5 weekly goal','In 10 weeks she had enough for a weekend trip.']],
+badges:{first_calc:'First budget split',first_goal:'First savings goal',first_expense:'Logged an expense',nw_done:'Needs vs wants complete',asked_bot:'Asked the assistant'},
+basics:{h2:'Budgeting basics',income:{t:'Income',d:'Money coming in: allowance, scholarship, internship or part-time pay.'},fixed:{t:'Fixed expenses',d:'Same amount every month, like hostel rent or a phone plan.'},var:{t:'Variable expenses',d:'Change each month: groceries, transport, outings.'},sav:{t:'Savings',d:'Money set aside for goals and surprises. Pay it first, spend the rest.'},sample:'Sample student month ($500)',sampleRows:[['Hostel rent','Fixed','$200'],['Phone plan','Fixed','$15'],['Groceries','Variable','$90'],['Transport','Variable','$30'],['Books','Variable','$25'],['Fun','Variable','$60'],['Savings','Goal','$80']],sampleHead:['Item','Type','Amount']},
+kc:{h3:'Quick check',q:'Which of these is a variable expense?',opts:['Hostel rent','Groceries','Monthly phone plan'],ok:'Correct! Groceries change month to month, so they are variable.',bad:'Not quite. That one stays the same each month, so it is fixed.'},
+nw:{h2:'Needs vs wants',q:'Is this a need or a want?',need:'Need',want:'Want',again:'Play again',done:'Done! Score:',right:'Right! ',wrong:'Not quite. ',
+guide:{h3:'Decision guide',ask:'Ask: Is it essential now?',yes:"Yes: prioritize it in this month's budget.",no:'No: add it to a wish list and wait 48 hours. If you still want it, plan for it.'},
+items:[['Hostel rent','n','Housing is a basic need.'],['Bubble tea','w','Tasty, but you can live without it.'],['Textbook for class','n','Learning materials are essential.'],['Streaming plan','w','A nice extra. Pause it when money is tight.'],['Groceries','n','Food keeps you going.'],['New sneakers','w','Unless your old pair is unusable, this can wait.'],['Bus pass','n','Getting to class is essential.'],['Game skin','w','Pure fun. Wait 48 hours before buying.']]},
+goals:{h2:'Savings goals',name:'Goal name',nameph:'New laptop',target:'Target amount ($)',saved:'Saved so far ($)',monthly:'Monthly contribution ($)',calc:'Calculate',err:'Fill every field. Target and monthly amount must be above 0, and savings cannot be negative.',togo:'to go. About',months:'month',monthsP:'months',atpace:'at this pace.',reached:'You have reached this goal!',saved2:'saved. Tip:',tip1:'Adding just $5 more each month can shorten the wait.',tip2:'Set your next goal and keep the habit going.'},
+planner:{h2:'Expense planner',date:'Date',cat:'Category',desc:'Description',amount:'Amount ($)',actions:'Actions',add:'Add expense',update:'Update expense',balance:'Sample balance ($)',total:'Total planned:',remaining:'Remaining:',note:'Entries live only on this screen and disappear when you close or refresh the page.',err:'Add a date, a description and an amount above 0.',empty:'No entries yet. Add your first expense above.',edit:'Edit',del:'Delete',cats:['Food','Transport','Education','Entertainment','Shopping','Utilities','Miscellaneous']},
+mist:{h2:'Money mistakes',items:[['Impulse buying','A flash sale pings your phone and you buy shoes you did not plan for.','Wait 48 hours before any non-essential purchase.'],['Ignoring small expenses','A $4 drink every day quietly becomes $120 a month.','Log every spend for one week and see the total.'],['Paying late','You forget a phone bill and pay a late fee.','Set calendar reminders for each due date.'],['Unused subscriptions','A streaming trial renews and you never open it.','Review subscriptions monthly and cancel what you skipped.'],['Spending without a plan','Money is gone by week three and you cannot say where.','Split your income with the 50-30-20 guide on day one.']],scen:'Scenario:',fix:'Fix:'},
+tips:{h2:'Infographics & tips library',search:'Search tips',searchph:'Try saving, needs, goals',sort:'Sort by',default:'Default',az:'A to Z',none:'No tips match. Try a different word or choose All.',all:'All',topic:'Topic:',
+list:[['Pay yourself first','saving','Move savings out the day money arrives.'],['Name your goal','goals','A named goal is easier to protect than a vague wish.'],['Track for one week','expenses','Small daily spends add up fast when you write them down.'],['Rent comes first','needs','Cover housing, food, transport and books before anything else.'],['Use the 50-30-20 guide','budgeting','Half needs, a third wants, the rest savings.'],['Round up your savings','saving','Save $23 instead of $20 and the habit grows.'],['Wait 48 hours','expenses','Most impulse wants fade in two days.'],['Break big goals down','goals','A $600 goal is $50 a month for a year.']]},
+chat:{h2:'AI Q&A assistant',hello:'Hi! Ask me a basic question about budgeting.',ask:'Ask',ph:'Type your question',disc:'This assistant shares basic educational information. It is not professional financial advice.',
+prompts:['What is a need?','How much should I save?','How do I avoid overspending?'],
+fallback:'I can only help with basic budgeting topics like needs, wants, saving and overspending. Try one of the suggested questions.',
+kb:[[['need'],'A need is something you must pay for to live and study, like rent, food, transport and books.'],[['want'],'A want is nice to have but not essential, like snacks, games or new clothes.'],[['save','saving'],'A good start is 20% of your income. Even $5 a week adds up.'],[['overspend','avoid','spend'],'Track small expenses, wait 48 hours before non-essential buys, and plan your month early.'],[['50','rule'],'The 50-30-20 guide splits income into 50% needs, 30% wants and 20% savings.'],[['subscription'],'Review subscriptions monthly and cancel the ones you do not use.'],[['goal'],'Name a goal, set a target and divide it by what you can save monthly.']]},
+fb:{h2:'Feedback',name:'Name',email:'Email',rating:'Rating',comments:'Comments',send:'Send feedback',choose:'Choose',ratings:['5 – Loved it','4','3','2','1'],err:'Add your name, a valid email, a rating and a comment.',ok:'Thank you! Your feedback passed validation. Nothing was stored or sent.'},
+contact:{h2:'Contact us',info:'Email: hello@budgetbasics.example<br>Phone: +00 000 000 000<br>Social: @budgetbasics',note:'Forms are checked in your browser only. Nothing is stored or transmitted.'},
+footer:{tag:'Small choices, sweet savings.',visitors:'Visitors on this device:',sitemap:'Sitemap',practice:'Practice',resources:'Resources',help:'Get help',disc:'Educational disclaimer',discbody:'BudgetBasics teaches budgeting ideas. It offers no banking, no transactions and no financial advice. AI tools were used to support design and content.',credit:'© 2026 BudgetBasics. Designed & developed by Eng. Nagi Alshaikh. All rights reserved.'}},
+ar:{brand:'أساسيات الميزانية',theme:'المظهر',top:'الأعلى',
+nav:{basics:'الأساسيات',nw:'احتياجات أم رغبات',rule:'قاعدة 50-30-20',goals:'أهداف الادخار',planner:'مخطط المصروفات',mistakes:'أخطاء مالية',tips:'إنفوجرافيك ونصائح',chat:'المساعد الذكي',feedback:'ملاحظاتك',contact:'تواصل معنا'},
+hero:{h1:'خطّط لشهرك قبل أن يتحكم فيه.',p:'بدجت بيسكس مساحة تعليمية مجانية للطلاب. أدخل مصروفك الشهري وشاهده يتوزّع كخلية نحل: نصفه للاحتياجات، وثلثه للرغبات، والباقي لمستقبلك.',note:'قيم تجريبية فقط. لا يُحفظ أو يُرسل أي شيء تكتبه هنا.',cta:'ابدأ التعلم'},
+calc:{h2:'حاسبة خلية 50-30-20',label:'الدخل أو المصروف الشهري ($)',needs:'احتياجات 50%',wants:'رغبات 30%',savings:'ادخار 20%',formula:'المعادلة: الدخل × 0.5 و0.3 و0.2. هذا إرشاد تعليمي وتقدير فقط، عدّله ليناسب حياتك.',err:'أدخل مبلغاً شهرياً أكبر من 0.',download:'تحميل كصورة'},
+stories:[['زيد توقف عن شراء القهوة اليومية لشهر كامل','حوّل الـ60$ التي وفّرها مباشرة لصندوق توفير اللابتوب.'],['ميا كادت تنسى فاتورة هاتفها','تذكير بالتقويم وفّر عليها غرامة تأخير بـ10$.'],['عمر راجع اشتراكين نسيهما تماماً','إلغاؤهما حرّر 18$ كل شهر.'],['لينا حددت هدفاً أسبوعياً بسيطاً بـ5$','بعد 10 أسابيع جمعت ما يكفي لرحلة نهاية أسبوع.']],
+badges:{first_calc:'أول توزيع ميزانية',first_goal:'أول هدف ادخار',first_expense:'تسجيل أول مصروف',nw_done:'إكمال لعبة الاحتياجات والرغبات',asked_bot:'سؤال للمساعد الذكي'},
+basics:{h2:'أساسيات الميزانية',income:{t:'الدخل',d:'المال الوارد: مصروف، منحة دراسية، تدريب، أو عمل جزئي.'},fixed:{t:'مصاريف ثابتة',d:'نفس المبلغ كل شهر، مثل إيجار السكن أو خط الهاتف.'},var:{t:'مصاريف متغيرة',d:'تتغير كل شهر: البقالة، المواصلات، الخروجات.'},sav:{t:'الادخار',d:'مال تخصصه للأهداف والمفاجآت. ادخره أولاً ثم أنفق الباقي.'},sample:'نموذج شهر طالب (500$)',sampleRows:[['إيجار السكن','ثابت','200$'],['خط الهاتف','ثابت','15$'],['البقالة','متغير','90$'],['المواصلات','متغير','30$'],['الكتب','متغير','25$'],['ترفيه','متغير','60$'],['ادخار','هدف','80$']],sampleHead:['البند','النوع','المبلغ']},
+kc:{h3:'اختبار سريع',q:'أي من هذه يُعد مصروفاً متغيراً؟',opts:['إيجار السكن','البقالة','فاتورة الهاتف الشهرية'],ok:'صحيح! البقالة تتغير كل شهر لذلك هي مصروف متغير.',bad:'ليس تماماً. هذا المبلغ ثابت كل شهر.'},
+nw:{h2:'احتياجات أم رغبات',q:'هل هذا احتياج أم رغبة؟',need:'احتياج',want:'رغبة',again:'العب مجدداً',done:'انتهى! نتيجتك:',right:'صحيح! ',wrong:'ليس تماماً. ',
+guide:{h3:'دليل القرار',ask:'اسأل نفسك: هل هذا ضروري الآن؟',yes:'نعم: أعطه الأولوية في ميزانية هذا الشهر.',no:'لا: أضفه لقائمة الأمنيات وانتظر 48 ساعة. إذا ما زلت تريده، خطط له.'},
+items:[['إيجار السكن','n','السكن احتياج أساسي.'],['بابل تي','w','لذيذ، لكن يمكنك الاستغناء عنه.'],['كتاب دراسي','n','مواد التعلم أساسية.'],['اشتراك بث','w','إضافة لطيفة، أوقفه عند ضيق الميزانية.'],['البقالة','n','الطعام يبقيك مستمراً.'],['حذاء جديد','w','إلا إذا كان القديم غير صالح، يمكن الانتظار.'],['بطاقة الباص','n','الوصول للجامعة أساسي.'],['عنصر لعبة','w','متعة بحتة. انتظر 48 ساعة قبل الشراء.']]},
+goals:{h2:'أهداف الادخار',name:'اسم الهدف',nameph:'لابتوب جديد',target:'المبلغ المستهدف ($)',saved:'المدخر حالياً ($)',monthly:'المساهمة الشهرية ($)',calc:'احسب',err:'املأ كل الحقول. يجب أن يكون المبلغ المستهدف والشهري أكبر من 0، ولا يمكن أن يكون المدخر سالباً.',togo:'متبقٍ. تقريباً',months:'شهر',monthsP:'أشهر',atpace:'بهذا المعدل.',reached:'لقد حققت هذا الهدف!',saved2:'تم ادخاره. نصيحة:',tip1:'إضافة 5$ فقط شهرياً قد تقصر الانتظار.',tip2:'حدد هدفك التالي وواصل العادة.'},
+planner:{h2:'مخطط المصروفات',date:'التاريخ',cat:'الفئة',desc:'الوصف',amount:'المبلغ ($)',actions:'إجراءات',add:'إضافة مصروف',update:'تحديث المصروف',balance:'الرصيد التجريبي ($)',total:'إجمالي المخطط:',remaining:'المتبقي:',note:'تبقى الإدخالات في هذه الشاشة فقط وتختفي عند إغلاق الصفحة أو تحديثها.',err:'أضف تاريخاً ووصفاً ومبلغاً أكبر من 0.',empty:'لا توجد إدخالات بعد. أضف أول مصروف أعلاه.',edit:'تعديل',del:'حذف',cats:['طعام','مواصلات','تعليم','ترفيه','تسوق','فواتير','متنوع']},
+mist:{h2:'أخطاء مالية شائعة',items:[['الشراء الاندفاعي','يصلك إشعار تخفيضات فتشتري حذاءً لم تكن تخطط له.','انتظر 48 ساعة قبل أي شراء غير ضروري.'],['تجاهل المصاريف الصغيرة','مشروب بـ4$ يومياً يتحول بهدوء إلى 120$ شهرياً.','سجّل كل مصروف لأسبوع وشاهد المجموع.'],['التأخر في الدفع','تنسى فاتورة الهاتف فتدفع غرامة تأخير.','فعّل تذكيرات لكل موعد استحقاق.'],['اشتراكات غير مستخدمة','تجربة اشتراك بث تتجدد ولا تفتحها أبداً.','راجع اشتراكاتك شهرياً وألغِ ما لا تستخدمه.'],['الإنفاق بلا خطة','يختفي المال في الأسبوع الثالث ولا تعرف أين ذهب.','وزّع دخلك بقاعدة 50-30-20 من اليوم الأول.']],scen:'الموقف:',fix:'الحل:'},
+tips:{h2:'مكتبة الإنفوجرافيك والنصائح',search:'ابحث عن نصيحة',searchph:'جرّب: ادخار، احتياجات، أهداف',sort:'ترتيب حسب',default:'افتراضي',az:'أبجدياً',none:'لا توجد نصائح مطابقة. جرّب كلمة أخرى أو اختر الكل.',all:'الكل',topic:'الموضوع:',
+list:[['ادّخر أولاً','ادخار','أخرج مبلغ الادخار فور وصول المال.'],['سمِّ هدفك','أهداف','الهدف المسمّى أسهل في الحماية من أمنية غامضة.'],['تتبّع لأسبوع','مصاريف','المصاريف اليومية الصغيرة تتراكم بسرعة عند تسجيلها.'],['الإيجار أولاً','احتياجات','غطِّ السكن والطعام والمواصلات والكتب قبل أي شيء آخر.'],['استخدم قاعدة 50-30-20','ميزانية','نصف للاحتياجات، ثلث للرغبات، والباقي للادخار.'],['قرّب ادخارك للأعلى','ادخار','ادّخر 23$ بدلاً من 20$ والعادة تنمو.'],['انتظر 48 ساعة','مصاريف','أغلب الرغبات الاندفاعية تخفّ خلال يومين.'],['قسّم الأهداف الكبيرة','أهداف','هدف بـ600$ يعني 50$ شهرياً لمدة سنة.']]},
+chat:{h2:'المساعد الذكي للأسئلة',hello:'مرحباً! اسألني سؤالاً بسيطاً عن الميزانية.',ask:'اسأل',ph:'اكتب سؤالك',disc:'يقدّم هذا المساعد معلومات تعليمية أساسية فقط، وليست استشارة مالية احترافية.',
+prompts:['ما هو الاحتياج؟','كم يجب أن أدّخر؟','كيف أتجنب الإنفاق الزائد؟'],
+fallback:'يمكنني فقط المساعدة في مواضيع الميزانية الأساسية مثل الاحتياجات والرغبات والادخار والإنفاق الزائد. جرّب أحد الأسئلة المقترحة.',
+kb:[[['احتياج'],'الاحتياج هو ما يجب دفعه للعيش والدراسة، مثل الإيجار والطعام والمواصلات والكتب.'],[['رغبة'],'الرغبة شيء لطيف لكنه غير ضروري، مثل الوجبات الخفيفة والألعاب والملابس الجديدة.'],[['ادخار','أدخر','ادخر'],'ابدأ بنسبة 20% من دخلك. حتى 5$ أسبوعياً تتراكم مع الوقت.'],[['إنفاق','تبذير','زائد'],'سجّل المصاريف الصغيرة، وانتظر 48 ساعة قبل الشراء غير الضروري، وخطط لشهرك مبكراً.'],[['50','قاعدة'],'قاعدة 50-30-20 توزّع الدخل: 50% احتياجات، 30% رغبات، 20% ادخار.'],[['اشتراك'],'راجع اشتراكاتك شهرياً وألغِ ما لا تستخدمه.'],[['هدف'],'سمِّ هدفك، وحدد مبلغاً مستهدفاً، واقسمه على ما تستطيع ادخاره شهرياً.']]},
+fb:{h2:'ملاحظاتك',name:'الاسم',email:'البريد الإلكتروني',rating:'التقييم',comments:'تعليقات',send:'إرسال الملاحظات',choose:'اختر',ratings:['5 – أحببته','4','3','2','1'],err:'أضف اسمك وبريداً إلكترونياً صحيحاً وتقييماً وتعليقاً.',ok:'شكراً لك! اجتازت ملاحظاتك التحقق. لم يتم حفظ أو إرسال أي شيء.'},
+contact:{h2:'تواصل معنا',info:'البريد: hello@budgetbasics.example<br>الهاتف: +00 000 000 000<br>التواصل الاجتماعي: @budgetbasics',note:'يتم التحقق من النماذج داخل متصفحك فقط. لا شيء يُحفظ أو يُرسل.'},
+footer:{tag:'قرارات صغيرة، ادخار حلو.',visitors:'زوار هذا الجهاز:',sitemap:'خريطة الموقع',practice:'تمرّن',resources:'موارد',help:'احصل على مساعدة',disc:'إخلاء مسؤولية تعليمي',discbody:'يقدّم أساسيات الميزانية أفكاراً تعليمية عن الميزانية فقط، دون خدمات مصرفية أو معاملات أو استشارات مالية. استُخدمت أدوات ذكاء اصطناعي لدعم التصميم والمحتوى.',credit:'© 2026 أساسيات الميزانية. تصميم وتطوير: المهندس ناجي الشيخ. جميع الحقوق محفوظة.'}}};
+
+function get(o,p){return p.split('.').reduce((a,k)=>a&&a[k],o)}
+
+function applyStatic(){
+ const t=T[LANG];
+ $$('[data-i18n]').forEach(el=>{const v=get(t,el.dataset.i18n);if(typeof v==='string')el.textContent=v});
+ $$('[data-i18n-ph]').forEach(el=>{const v=get(t,el.dataset.i18nPh);if(typeof v==='string')el.placeholder=v});
+}
+
+function renderDynamic(){
+ const t=T[LANG];
+ // sample table
+ $('#sampleTbl').innerHTML='<tr>'+t.basics.sampleHead.map(h=>`<th>${h}</th>`).join('')+'</tr>'+t.basics.sampleRows.map(r=>'<tr>'+r.map(c=>`<td>${c}</td>`).join('')+'</tr>').join('');
+ // knowledge check
+ $('#kcBtns').innerHTML=t.kc.opts.map((o,i)=>`<button data-ok="${i===1?1:0}">${o}</button>`).join('');
+ $$('#kc button').forEach(b=>b.onclick=()=>$('#kcf').textContent=b.dataset.ok==='1'?t.kc.ok:t.kc.bad);
+ $('#kcf').textContent='';
+ // needs vs wants
+ ni=0;ns=0;nwShow();
+ // mistakes
+ $('#mistakesBox').innerHTML=t.mist.items.map(m=>`<details><summary>${m[0]}</summary><p><b>${t.mist.scen}</b> ${m[1]}</p><p><b>${t.mist.fix}</b> ${m[2]}</p></details>`).join('');
+ // planner categories
+ $('#ec').innerHTML=t.planner.cats.map(c=>`<option>${c}</option>`).join('');
+ $('#eadd').textContent=ed<0?t.planner.add:t.planner.update;
+ draw();
+ // tips
+ tp='ALL';renderChips();tl();
+ // chat
+ $('#sp').innerHTML=t.chat.prompts.map(p=>`<button>${p}</button>`).join('');
+ $$('#sp button').forEach(b=>b.onclick=()=>ask(b.textContent));
+ // feedback
+ $('#fr').innerHTML=`<option value="">${t.fb.choose}</option>`+t.fb.ratings.map(r=>`<option>${r}</option>`).join('');
+ // misc errors
+ $('#incErr').textContent='';$('#sge').textContent='';$('#ee').textContent='';$('#fer').textContent='';$('#fok').textContent='';
+ calc();
+}
+
+function setLang(l){
+ LANG=l;localStorage.setItem('bblang',l);
+ document.documentElement.lang=l;
+ document.documentElement.dir=l==='ar'?'rtl':'ltr';
+ $('#lang').textContent=l==='ar'?'EN':'عربي';
+ applyStatic();renderDynamic();
+ if(typeof showStory==='function')showStory();
+ if(typeof renderBadges==='function')renderBadges();
+}
+
+try{document.documentElement.dataset.theme=localStorage.getItem('bbtheme')||''}catch(e){}
+$('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme==='dark'||(!r.dataset.theme&&matchMedia('(prefers-color-scheme:dark)').matches);r.dataset.theme=d?'light':'dark';try{localStorage.setItem('bbtheme',r.dataset.theme)}catch(e){}};
+$('#lang').onclick=()=>setLang(LANG==='en'?'ar':'en');
+
+const CIRC=301.6; // 2*pi*48
+function calc(){const v=parseFloat($('#inc').value);
+ if(!isFinite(v)||v<=0){$('#incErr').textContent=T[LANG].calc.err;['dN','dW','dS'].forEach(id=>$('#'+id).setAttribute('stroke-dasharray','0 '+CIRC));return}
+ $('#incErr').textContent='';$('#an').textContent=fm(v*.5);$('#aw').textContent=fm(v*.3);$('#as').textContent=fm(v*.2);
+ const n=v*.5,w=v*.3,s=v*.2,segs=[n/v*CIRC,w/v*CIRC,s/v*CIRC];let off=0;
+ [['dN',segs[0]],['dW',segs[1]],['dS',segs[2]]].forEach(([id,len])=>{const el=$('#'+id);el.setAttribute('stroke-dasharray',`${len} ${CIRC}`);el.style.strokeDashoffset=-off;off+=len});
+ mark('first_calc')}
+$('#inc').oninput=calc;
+
+$('#dl').onclick=()=>{const t=T[LANG],v=parseFloat($('#inc').value)||0,c=document.createElement('canvas');c.width=640;c.height=360;const x=c.getContext('2d');
+ x.fillStyle=getComputedStyle(document.body).getPropertyValue('--card')||'#fff';x.fillRect(0,0,640,360);
+ x.fillStyle=getComputedStyle(document.body).getPropertyValue('--ink')||'#000';x.font='bold 26px sans-serif';x.fillText('BudgetBasics',24,46);
+ x.font='16px sans-serif';x.fillText(t.calc.h2,24,76);
+ const rows=[[t.calc.needs,fm(v*.5),'#0F6E75'],[t.calc.wants,fm(v*.3),'#F2B01E'],[t.calc.savings,fm(v*.2),'#3FA06B']];
+ rows.forEach((r,i)=>{const y=140+i*48;x.fillStyle=r[2];x.fillRect(24,y-18,18,18);x.fillStyle=getComputedStyle(document.body).getPropertyValue('--ink')||'#000';x.font='18px sans-serif';x.fillText(r[0]+'   '+r[1],54,y)});
+ x.font='12px sans-serif';x.fillStyle='#888';x.fillText('Educational estimate only',24,330);
+ const a=document.createElement('a');a.download='budgetbasics-summary.png';a.href=c.toDataURL();a.click()};
+
+let ni=0,ns=0;
+function nwShow(){const items=T[LANG].nw.items,d=ni>=items.length;$('#nwBtns').hidden=d;$('#nwR').hidden=!d;$('#nwItem').textContent=d?`${T[LANG].nw.done} ${ns}/${items.length}`:items[ni][0];if(d&&typeof mark==='function')mark('nw_done')}
+$$('#nwBtns button').forEach(b=>b.onclick=()=>{const items=T[LANG].nw.items,ok=b.dataset.k===items[ni][1];if(ok)ns++;$('#nwF').textContent=(ok?T[LANG].nw.right:T[LANG].nw.wrong)+items[ni][2];ni++;nwShow()});
+$('#nwR').onclick=()=>{ni=0;ns=0;$('#nwF').textContent='';nwShow()};
+
+$('#sg').onsubmit=e=>{e.preventDefault();const t=T[LANG].goals,n=$('#gn').value.trim(),tg=parseFloat($('#gt').value),c=parseFloat($('#gc').value),m=parseFloat($('#gm').value),o=$('#sgo');
+ if(!n||![tg,c,m].every(isFinite)||tg<=0||c<0||m<=0){$('#sge').textContent=t.err;o.hidden=true;return}
+ $('#sge').textContent='';const r=Math.max(tg-c,0),mo=Math.ceil(r/m),p=Math.min(100,c/tg*100);
+ o.hidden=false;o.innerHTML=`<h3>${esc(n)}</h3><p>${r?`${fm(r)} ${t.togo} <b>${mo}</b> ${mo==1?t.months:t.monthsP} ${t.atpace}`:t.reached}</p><div class="bar"><i style="width:${p}%"></i></div><p class="note">${p.toFixed(0)}% ${t.saved2} ${r?t.tip1:t.tip2}</p>`;if(typeof mark==='function')mark('first_goal')};
+
+let ex=[],ed=-1;$('#ed').valueAsDate=new Date();
+const CICON=['🍔','🚌','📚','🎮','🛍️','💡','🗂️'];
+function draw(){const t=T[LANG].planner;
+ $('#et').innerHTML=ex.map((x,k)=>{const ci=t.cats.indexOf(x.c),ic=ci>-1?CICON[ci]:'🗂️';return`<tr><td>${x.d}</td><td><span class="cicon">${ic}</span>${x.c}</td><td>${esc(x.t)}</td><td>${fm(x.a)}</td><td><button data-e="${k}">${t.edit}</button> <button data-x="${k}">${t.del}</button></td></tr>`}).join('')||`<tr><td colspan="5">${t.empty}</td></tr>`;
+ const tot=ex.reduce((s,x)=>s+x.a,0),b=parseFloat($('#eb').value)||0;$('#etot').textContent=fm(tot);$('#erem').textContent=fm(b-tot);$('#erem').style.color=b-tot<0?'var(--coral)':''}
+$('#eadd').onclick=()=>{const t=T[LANG].planner,x={d:$('#ed').value,c:$('#ec').value,t:$('#et2').value.trim(),a:parseFloat($('#ea').value)};
+ if(!x.d||!x.t||!isFinite(x.a)||x.a<=0){$('#ee').textContent=t.err;return}
+ $('#ee').textContent='';if(ed<0)ex.push(x);else ex[ed]=x;ed=-1;$('#eadd').textContent=t.add;$('#et2').value='';$('#ea').value='';draw();if(typeof mark==='function')mark('first_expense')};
+$('#et').onclick=e=>{const b=e.target.closest('button');if(!b)return;const t=T[LANG].planner;
+ if(b.dataset.x){ex.splice(+b.dataset.x,1);ed=-1;$('#eadd').textContent=t.add}
+ else{ed=+b.dataset.e;const x=ex[ed];$('#ed').value=x.d;$('#ec').value=x.c;$('#et2').value=x.t;$('#ea').value=x.a;$('#eadd').textContent=t.update}draw()};
+$('#eb').oninput=draw;
+
+let tp='ALL';
+function renderChips(){const t=T[LANG].tips,tops=['ALL',...new Set(t.list.map(x=>x[1]))];
+ $('#chips').innerHTML=tops.map(x=>`<button aria-pressed="${x==='ALL'}" data-k="${x}">${x==='ALL'?t.all:x}</button>`).join('')}
+function tl(){const t=T[LANG].tips,q=$('#q').value.toLowerCase();let l=t.list.filter(x=>(tp==='ALL'||x[1]===tp)&&(x[0]+x[1]+x[2]).toLowerCase().includes(q));
+ if($('#so').value==='1')l=[...l].sort((a,b)=>a[0].localeCompare(b[0],LANG));
+ $('#tg').innerHTML=l.map(x=>`<div class="card" role="listitem"><h3>${x[0]}</h3><p>${x[2]}</p><span class="note">${t.topic} ${x[1]}</span></div>`).join('');$('#tn').hidden=l.length>0}
+$('#chips').onclick=e=>{const b=e.target.closest('button');if(!b)return;tp=b.dataset.k;$$('#chips button').forEach(x=>x.setAttribute('aria-pressed',x===b));tl()};
+$('#q').oninput=tl;$('#so').onchange=tl;
+
+function say(txt,c){const d=document.createElement('div');d.className='m '+c;d.textContent=txt;$('#log').append(d);$('#log').scrollTop=1e5}
+function ask(q){q=(q||'').trim();if(!q)return;say(q,'u');const l=q.toLowerCase(),kb=T[LANG].chat.kb,h=kb.find(k=>k[0].some(w=>l.includes(w)));say(h?h[1]:T[LANG].chat.fallback,'b');$('#cq').value='';if(typeof mark==='function')mark('asked_bot')}
+$('#ask').onclick=()=>ask($('#cq').value);$('#cq').onkeydown=e=>{if(e.key==='Enter')ask(e.target.value)};
+
+$('#ff').onsubmit=e=>{e.preventDefault();const t=T[LANG].fb,em=/^[^@\s]+@[^@\s]+\.[^@\s]+$/;$('#fok').textContent='';
+ if(!$('#fn').value.trim()||!em.test($('#fe').value)||!$('#fr').value||!$('#fc').value.trim()){$('#fer').textContent=t.err;return}
+ $('#fer').textContent='';$('#fok').textContent=t.ok;e.target.reset();$('#fr').value=''};
+
+const tick=()=>$('#clock').textContent=new Date().toLocaleString(LANG==='ar'?'ar-EG':'en-US');tick();setInterval(tick,1000);
+try{const v=(+localStorage.getItem('bbv')||0)+1;localStorage.setItem('bbv',v);$('#vc').textContent=v}catch(e){}
+addEventListener('scroll',()=>$('#top').style.display=scrollY>500?'block':'none');
+$('#top').onclick=()=>scrollTo({top:0});
+
+// daily story
+const SIDX=Math.floor(Math.random()*4);
+function showStory(){const s=T[LANG].stories[SIDX];$('#storyT').textContent=s[0];$('#storyB').textContent=s[1]}
+
+// badges
+const BADGE_KEYS=['first_calc','first_goal','first_expense','nw_done','asked_bot'];
+function loadBadges(){try{return JSON.parse(localStorage.getItem('bbbadges')||'[]')}catch(e){return[]}}
+let earned=loadBadges();
+function mark(k){if(earned.includes(k))return;earned.push(k);try{localStorage.setItem('bbbadges',JSON.stringify(earned))}catch(e){}renderBadges()}
+function renderBadges(){const t=T[LANG].badges;$('#badges').innerHTML=BADGE_KEYS.map(k=>`<span class="badge ${earned.includes(k)?'on':''}"><i></i>${t[k]}</span>`).join('')}
+
+setLang(LANG);
+showStory();
+renderBadges();
+</script>
+</body>
+</html>
